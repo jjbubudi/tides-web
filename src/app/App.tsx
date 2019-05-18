@@ -1,0 +1,56 @@
+import React from 'react';
+import { Tides } from '../tides/Tides';
+import { Title } from './Title';
+import { AppLayout } from './AppLayout';
+import { PredictedTidesResponse } from '@jjbubudi/protos-web/tides/api_pb';
+
+interface AppProps {
+  fetchPredictedTides: (callback: (res: PredictedTidesResponse) => void) => void
+}
+
+interface AppState {
+  currentDate: Date
+  predicted: PredictedTidesResponse.Prediction[]
+}
+
+export class App extends React.Component<AppProps, AppState> {
+
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      currentDate: new Date(0),
+      predicted: []
+    };
+  }
+
+  componentDidMount() {
+    this.setState(state => {
+      return {
+        ...state,
+        currentDate: new Date()
+      }
+    });
+    this.props.fetchPredictedTides(res => {
+      this.setState(state => {
+        return {
+          ...state,
+          predicted: res.getPredictionsList()
+        };
+      });
+    });
+  }
+
+  render() {
+    return (
+      <AppLayout>
+        <Title date={this.state.currentDate} />
+        <Tides predicted={this.state.predicted.map((t) => {
+            return {
+              time: t.getTime()!.toDate(),
+              meters: t.getMeters()
+            };
+          })} />
+      </AppLayout>
+    );
+  }
+}

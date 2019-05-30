@@ -1,11 +1,6 @@
 ---
 kind: pipeline
-name: amd64
-
-platform:
-  os: linux
-  arch: amd64
-
+name: ci
 steps:
 - name: test
   image: node:10.16.0-alpine
@@ -18,7 +13,7 @@ steps:
   commands:
   - yarn build
 
-- name: docker
+- name: docker-publish-amd64
   image: plugins/docker
   settings:
     username:
@@ -27,6 +22,8 @@ steps:
       from_secret: docker_password
     repo: "jjbubudi/tides-web"
     tag: "${DRONE_TAG}-amd64"
+    build_args:
+    - BASE_IMAGE=amd64/nginx:1.16.0-alpine
   when:
     ref:
     - refs/head/master
@@ -34,27 +31,7 @@ steps:
     event:
     - tag
 
----
-kind: pipeline
-name: arm64
-
-platform:
-  os: linux
-  arch: arm64
-
-steps:
-- name: test
-  image: node:10.16.0-alpine
-  commands:
-  - yarn install
-  - yarn test
-
-- name: build
-  image: node:10.16.0-alpine
-  commands:
-  - yarn build
-
-- name: docker
+- name: docker-publish-arm64
   image: plugins/docker
   settings:
     username:
@@ -63,6 +40,8 @@ steps:
       from_secret: docker_password
     repo: "jjbubudi/tides-web"
     tag: "${DRONE_TAG}-arm64"
+    build_args:
+    - BASE_IMAGE=arm64v8/nginx:1.16.0-alpine
   when:
     ref:
     - refs/head/master
@@ -70,25 +49,7 @@ steps:
     event:
     - tag
 
----
-kind: pipeline
-name: arm
-platform:
-  os: linux
-  arch: arm
-steps:
-- name: test
-  image: node:10.16.0-alpine
-  commands:
-  - yarn install
-  - yarn test
-
-- name: build
-  image: node:10.16.0-alpine
-  commands:
-  - yarn build
-
-- name: docker
+- name: docker-publish-arm
   image: plugins/docker
   settings:
     username:
@@ -97,6 +58,8 @@ steps:
       from_secret: docker_password
     repo: "jjbubudi/tides-web"
     tag: "${DRONE_TAG}-arm"
+    build_args:
+    - BASE_IMAGE=arm32v7/nginx:1.16.0
   when:
     ref:
     - refs/head/master
@@ -107,11 +70,6 @@ steps:
 ---
 kind: pipeline
 name: manifest
-
-platform:
-  os: linux
-  arch: amd64
-
 steps:
 - name: manifest
   image: plugins/manifest:1.0.2
@@ -134,6 +92,4 @@ steps:
     - tag
 
 depends_on:
-- amd64
-- arm64
-- arm
+- ci

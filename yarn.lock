@@ -1082,9 +1082,9 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@jjbubudi/protos-web@jjbubudi/protos-web#096965f":
+"@jjbubudi/protos-web@jjbubudi/protos-web#307ef39":
   version "1.0.0"
-  resolved "https://codeload.github.com/jjbubudi/protos-web/tar.gz/096965f77dca13b57cfe470360aa818b67e4edff"
+  resolved "https://codeload.github.com/jjbubudi/protos-web/tar.gz/307ef397e6166eed6ad07546073d1f91a7c15ce3"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

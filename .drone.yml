@@ -7,10 +7,6 @@ steps:
   commands:
   - yarn install
   - yarn test
-
-- name: build
-  image: node:10.16.0-alpine
-  commands:
   - yarn build
 
 - name: docker-publish-amd64

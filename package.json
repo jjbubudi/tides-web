@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@jjbubudi/protos-web": "jjbubudi/protos-web#096965f",
+    "@jjbubudi/protos-web": "jjbubudi/protos-web#307ef39",
     "@types/chart.js": "2.7.15",
     "@types/google-protobuf": "3.2.7",
     "@types/jest": "24.0.13",
